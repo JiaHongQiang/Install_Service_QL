@@ -157,7 +157,7 @@ vim install.conf
 
 1. 所有脚本需要以 **root** 用户运行
 2. 安装包推荐放入 `packages/` 目录，脚本会自动使用最新版本
-3. TLS 配置前需先将 p12 证书拷贝到 `/home/hy_media_server/bin` 目录
+3. TLS 配置时，P12 证书放入 `packages/` 目录，安装时自动复制到目标路径
 4. TLS 配置已全自动化，无需人工干预
 
 ## 服务管理
