@@ -40,7 +40,7 @@ Install_Service_QL/
 
 ### 1. 上传安装包
 
-将以下安装包上传到 `/home` 目录：
+将以下安装包上传到 `/home` 或项目内的 `packages/` 目录（推荐）：
 
 **通用包（黑红区都需要）：**
 - `deploy_sqlite_loongarch64.run` - SQLite安装包
@@ -64,6 +64,8 @@ chmod 755 install.sh scripts/*.sh config/*.sh tools/*.sh
 vim install.conf
 ```
 
+`install.conf` 已更新为分区配置（BLACK/RED），支持针对不同区域配置不同参数。
+
 ### 4. 运行安装程序
 
 ```bash
@@ -78,19 +80,35 @@ vim install.conf
 
 ### 主要配置项
 
-| 配置项 | 说明 | 示例值 |
+| 配置项前缀 | 说明 | 示例值 |
 |--------|------|--------|
-| `NODE_ID` | 节点ID | `20` |
-| `DOMAIN_CODE` | 域代码 | `2c4d54e8ba` |
-| `LOCAL_IP` | 本地IP | `192.168.2.156` |
-| `NAT_IP` | NAT IP | `192.168.2.156` |
-| `MAIN_IP` | 主节点IP（黑区） | `192.168.2.36` |
-| `NAT_IP2` | NAT IP2（红区） | `192.168.16.143` |
-| `ENCRYPT_TYPE` | 加密类型 | `3`=黑区, `4`=红区 |
-| `GW_USER_ID` | 网关用户ID | `581212517` |
-| `FPGA_AGENT_IP` | 加密卡代理IP | `192.168.55.28` |
-| `NGINX_PROXY_IP` | Nginx代理目标IP | `192.168.16.254` |
-| `DB_PASSWORD` | 数据库密码 | 留空则安装时输入 |
+| `BLACK_*` | 黑区配置参数 | `BLACK_NODE_ID="20"` |
+| `RED_*` | 红区配置参数 | `RED_NODE_ID="21"` |
+
+**通用参数说明：**
+
+- **节点与网络**
+  - `*_NODE_ID`: 节点ID
+  - `*_DOMAIN_CODE`: 域代码
+  - `*_LOCAL_IP`: 本地IP
+  - `*_NAT_IP`: NAT IP (黑区)
+  - `*_NAT_IP2`: 红区网关地址 (红区)
+  - `*_MAIN_IP`: 主节点IP (黑区)
+
+- **加密与安全**
+  - `*_ENCRYPT_TYPE`: 加密类型 (`3`=黑区, `4`=红区)
+  - `*_GW_USER_ID`: 网关用户ID
+  - `DB_PASSWORD`: 数据库密码
+
+- **黑区 TLS 配置 (全自动)**
+  - `BLACK_ENABLE_TLS`: 是否启用 (`1`=启用)
+  - `BLACK_TLS_VERIFY_CERT`: 是否验签 (`1`=是)
+  - `BLACK_TLS_CONNECT_IP`: TLS连接目标IP (默认同主节点IP)
+  - `BLACK_TLS_CONNECT_PORT`: TLS连接端口 (默认`6661`)
+  - `BLACK_TLS_RTSP_*`: RTSP相关TLS配置
+
+- **红区 Nginx**
+  - `RED_NGINX_PROXY_IP`: 代理目标IP
 
 ---
 
@@ -138,8 +156,9 @@ vim install.conf
 ## 注意事项
 
 1. 所有脚本需要以 **root** 用户运行
-2. 安装前确保安装包已上传到 `/home` 目录
+2. 安装包推荐放入 `packages/` 目录，脚本会自动使用最新版本
 3. TLS 配置前需先将 p12 证书拷贝到 `/home/hy_media_server/bin` 目录
+4. TLS 配置已全自动化，无需人工干预
 
 ## 服务管理
 
