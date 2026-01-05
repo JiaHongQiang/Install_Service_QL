@@ -89,7 +89,8 @@ vim install.conf
 
 - **节点与网络**
   - `*_NODE_ID`: 节点ID
-  - `*_DOMAIN_CODE`: 域代码
+  - `*_DOMAIN_CODE`: 域代码 (通用)
+  - `GW_USER_ID`: 网关用户ID (通用)
   - `*_LOCAL_IP`: 本地IP
   - `*_NAT_IP`: NAT IP (黑区)
   - `*_NAT_IP2`: 红区网关地址 (红区)
@@ -97,7 +98,6 @@ vim install.conf
 
 - **加密与安全**
   - `*_ENCRYPT_TYPE`: 加密类型 (`3`=黑区, `4`=红区)
-  - `*_GW_USER_ID`: 网关用户ID
   - `DB_PASSWORD`: 数据库密码
 
 - **黑区 TLS 配置 (全自动)**
