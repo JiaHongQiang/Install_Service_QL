@@ -21,8 +21,12 @@ LOG_LEVEL_ERROR=3
 # 当前日志级别 (默认INFO)
 CURRENT_LOG_LEVEL=${CURRENT_LOG_LEVEL:-$LOG_LEVEL_INFO}
 
-# 日志文件路径
-LOG_FILE="${LOG_FILE:-/var/log/install_service_ql.log}"
+# 获取脚本根目录
+LOGGER_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOGGER_ROOT_DIR="$(dirname "$LOGGER_SCRIPT_DIR")"
+
+# 日志文件路径 (放在项目根目录)
+LOG_FILE="${LOG_FILE:-${LOGGER_ROOT_DIR}/install.log}"
 
 # 获取时间戳
 get_timestamp() {

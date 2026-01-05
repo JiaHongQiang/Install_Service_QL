@@ -171,4 +171,4 @@ service sie stop      # 停止服务
 
 ## 日志
 
-日志文件位置：`/var/log/install_service_ql.log`
+日志文件位置：`install.log`（与脚本同级目录）
