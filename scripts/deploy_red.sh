@@ -125,8 +125,8 @@ configure_red_database() {
     
     local node_id=$(get_required_param "NODE_ID" "请输入节点ID")
     local local_ip=$(get_ip_param "LOCAL_IP" "请输入本地IP")
-    local nat_ip=$(get_ip_param "NAT_IP" "请输入NAT IP" "$local_ip")
-    local nat_ip2=$(get_ip_param "NAT_IP2" "请输入NAT IP2")
+    local nat_ip="${NAT_IP:-$local_ip}"  # NAT_IP默认等于LOCAL_IP
+    local nat_ip2=$(get_ip_param "NAT_IP2" "请输入红区网关地址")
     local domain_code=$(get_required_param "DOMAIN_CODE" "请输入域代码")
     
     # 配置watchdog.ini

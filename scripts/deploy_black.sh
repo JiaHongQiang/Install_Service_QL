@@ -87,7 +87,7 @@ configure_black_database() {
     # 从配置文件或交互获取参数
     local node_id=$(get_required_param "NODE_ID" "请输入节点ID")
     local local_ip=$(get_ip_param "LOCAL_IP" "请输入本地IP")
-    local nat_ip=$(get_ip_param "NAT_IP" "请输入NAT IP" "$local_ip")
+    local nat_ip="${NAT_IP:-$local_ip}"  # NAT_IP默认等于LOCAL_IP
     local main_ip=$(get_ip_param "MAIN_IP" "请输入主节点IP")
     local domain_code=$(get_required_param "DOMAIN_CODE" "请输入域代码")
     
