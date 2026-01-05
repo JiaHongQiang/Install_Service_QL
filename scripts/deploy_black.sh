@@ -144,11 +144,32 @@ configure_black_tls() {
     
     local node_id="${NODE_ID}"
     local verify_cert=$(get_optional_param "TLS_VERIFY_CERT" "是否校验证书 (0=否, 1=是)" "1")
-    local password=$(get_required_param "TLS_PASSWORD" "请输入TLS密码/证书编号")
-    local p12_file=$(get_required_param "TLS_P12_FILE" "请输入P12证书路径" "/home/hy_media_server/bin/${password}.p12")
+    
+    # TLS密码默认使用GW_USER_ID
+    local password="${TLS_PASSWORD:-$GW_USER_ID}"
+    
+    # P12证书处理：从packages目录复制到目标路径
+    local p12_filename="${TLS_P12_FILE:-${password}.p12}"
+    local p12_source="${ROOT_DIR}/packages/${p12_filename}"
+    local p12_target="/home/hy_media_server/bin/${p12_filename}"
+    
+    if [ -f "$p12_source" ]; then
+        log_info "复制P12证书: $p12_filename -> $p12_target"
+        cp "$p12_source" "$p12_target"
+        chmod 644 "$p12_target"
+        # 设置与hy_media_server目录相同的所有者
+        if [ -d "/home/hy_media_server" ]; then
+            local owner=$(stat -c "%U:%G" /home/hy_media_server 2>/dev/null)
+            [ -n "$owner" ] && chown "$owner" "$p12_target"
+        fi
+        log_success "P12证书已复制"
+    else
+        log_warn "P12证书不存在: $p12_source"
+        log_warn "请确保证书文件已放入 packages/ 目录"
+    fi
     
     cd "${ROOT_DIR}/config"
-    bash addTlsConnectConfig.sh "$node_id" "$verify_cert" "$password" "$p12_file" "auto"
+    bash addTlsConnectConfig.sh "$node_id" "$verify_cert" "$password" "$p12_target" "auto"
 }
 
 #===============================================================================
