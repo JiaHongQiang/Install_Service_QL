@@ -23,6 +23,12 @@ WORK_DIR="/home"
 deploy_black_zone() {
     log_title "黑区安装部署 - Black Zone Deployment"
     
+    # 预检查安装包
+    if ! check_required_packages "black"; then
+        log_error "请先将安装包放入 packages/ 目录"
+        return 1
+    fi
+    
     # 加载黑区配置
     load_black_config
     show_current_config
