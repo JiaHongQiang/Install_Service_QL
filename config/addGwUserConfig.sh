@@ -35,7 +35,11 @@ safeExecsql $NodeID "replace into t_sip_encrypt(NODE_ID, CONTAINER_ID, KEY_FILE,
 
 safeExecsql $NodeID "update t_domain_info set DOMAIN_CODE= '${DomainCode}',PARENT_DOMAIN_CODE='${DomainCode}' where IS_LOCAL_DOMAIN=1;"
 
-cp watchdog.ini /home/hy_media_server/conf/
+# 获取脚本目录
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+
+cp "${ROOT_DIR}/templates/watchdog.ini" /home/hy_media_server/conf/
 sed -i "s/-n [0-9]\+/ -n ${NodeID}/g" /home/hy_media_server/conf/watchdog.ini
 
 echo "restart sie"

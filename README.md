@@ -80,35 +80,36 @@ vim install.conf
 
 ### 主要配置项
 
-| 配置项前缀 | 说明 | 示例值 |
+**通用配置（所有区域共享）：**
+
+| 配置项 | 说明 | 示例值 |
 |--------|------|--------|
-| `BLACK_*` | 黑区配置参数 | `BLACK_NODE_ID="20"` |
-| `RED_*` | 红区配置参数 | `RED_NODE_ID="21"` |
+| `DB_PASSWORD` | 数据库密码 | 留空则安装时输入 |
+| `DOMAIN_CODE` | 域代码 | `2c4d54e8ba` |
+| `MAIN_IP` | 主节点IP | `192.168.2.36` |
+| `GW_USER_ID` | 网关用户ID | `758850966` |
+| `TLS_P12_FILE` | P12证书文件名 | `758850966.p12` |
+| `BLACK_NODE_ID` | 黑区节点ID | `20` |
+| `RED_NODE_ID` | 红区节点ID | `21` |
 
-**通用参数说明：**
+**黑区配置 (BLACK_*)：**
 
-- **节点与网络**
-  - `*_NODE_ID`: 节点ID
-  - `*_DOMAIN_CODE`: 域代码 (通用)
-  - `GW_USER_ID`: 网关用户ID (通用)
-  - `*_LOCAL_IP`: 本地IP
-  - `*_NAT_IP`: NAT IP (黑区)
-  - `*_NAT_IP2`: 红区网关地址 (红区)
-  - `*_MAIN_IP`: 主节点IP (黑区)
+| 配置项 | 说明 |
+|--------|------|
+| `BLACK_LOCAL_IP` | 黑区本地IP |
+| `BLACK_ENCRYPT_TYPE` | 加密类型 (`3`=黑区加密) |
+| `BLACK_FPGA_AGENT_IP` | 加密卡代理IP |
+| `BLACK_ENABLE_TLS` | 是否启用TLS (`1`=启用) |
 
-- **加密与安全**
-  - `*_ENCRYPT_TYPE`: 加密类型 (`3`=黑区, `4`=红区)
-  - `DB_PASSWORD`: 数据库密码
+**红区配置 (RED_*)：**
 
-- **黑区 TLS 配置 (全自动)**
-  - `BLACK_ENABLE_TLS`: 是否启用 (`1`=启用)
-  - `BLACK_TLS_VERIFY_CERT`: 是否验签 (`1`=是)
-  - `BLACK_TLS_CONNECT_IP`: TLS连接目标IP (默认同主节点IP)
-  - `BLACK_TLS_CONNECT_PORT`: TLS连接端口 (默认`6661`)
-  - `BLACK_TLS_RTSP_*`: RTSP相关TLS配置
-
-- **红区 Nginx**
-  - `RED_NGINX_PROXY_IP`: 代理目标IP
+| 配置项 | 说明 |
+|--------|------|
+| `RED_LOCAL_IP` | 红区本地IP |
+| `RED_NAT_IP2` | 红区网关地址 |
+| `RED_ENCRYPT_TYPE` | 加密类型 (`4`=红区加密) |
+| `RED_FPGA_AGENT_IP` | 加密卡代理IP |
+| `RED_NGINX_PROXY_IP` | Nginx代理目标IP |
 
 ---
 
